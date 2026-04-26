@@ -534,29 +534,76 @@ h2::after {
     color: var(--accent);
 }
 
-/* --- Moments Gallery (Enhanced with Hover) --- */
-.photo-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-top: 24px;
+/* --- Infinite Scrolling Gallery --- */
+.carousel-container::before,
+.carousel-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 100px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+.carousel-container::before {
+    left: 0;
+    background: linear-gradient(to right, var(--bg-color), transparent);
+}
+.carousel-container::after {
+    right: 0;
+    background: linear-gradient(to left, var(--bg-color), transparent);
+}
+
+.carousel-container {
+    width: 100%;
+    overflow: hidden; /* Hide the photos outside the container */
+    padding: 20px 0;
+    position: relative;
+}
+
+.carousel-track {
+    display: flex;
+    width: max-content; /* Ensure the track is wide enough for all photos */
+    gap: 20px;
+    animation: scroll-left 30s linear infinite; /* Adjust 30s to change speed */
+}
+
+/* Pause the scrolling when hovering */
+.carousel-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        /* This scrolls exactly half of the track (one full set of images) */
+        transform: translateX(-50%);
+    }
 }
 
 .photo-item {
-    position: relative; /* 必须设置，让文字层相对于它定位 */
+    flex: 0 0 280px; /* Fixed width for each photo */
     aspect-ratio: 1 / 1;
-    overflow: hidden;
+    position: relative;
     border-radius: 16px;
+    overflow: hidden;
     border: 1px solid var(--border);
     background: var(--card-bg);
     cursor: pointer;
 }
 
+/* Keep your existing .photo-item img and .photo-overlay styles */
 .photo-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.5s ease;
+}
+
+.photo-item:hover img {
+    transform: scale(1.1);
 }
 
 /* 悬浮遮罩层 */
