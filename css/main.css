@@ -565,7 +565,10 @@ h2::after {
     display: flex;
     width: max-content; /* Ensure the track is wide enough for all photos */
     gap: 20px;
-    animation: scroll-left 30s linear infinite; /* Adjust 30s to change speed */
+    animation: scroll-left 45s linear infinite;
+
+    will-change: transform;
+    backface-visibility: hidden; 
 }
 
 /* Pause the scrolling when hovering */
